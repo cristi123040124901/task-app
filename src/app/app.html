@@ -1,0 +1,15 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1>Task Organizer</h1>
+  </header>
+  <main class="app-main">
+    <app-task-form (taskCreated)="onTaskCreated($event)"></app-task-form>
+    <app-task-list
+      [tasks]="tasks"
+      (toggleComplete)="onToggleComplete($event)"
+      (deleteTask)="onDeleteTask($event)"
+    ></app-task-list>
+    <app-dashboard>
+    </app-dashboard>
+  </main>
+</div>
