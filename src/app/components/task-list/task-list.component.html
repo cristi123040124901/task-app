@@ -1,17 +1,14 @@
 <div class="task-list">
   @if (tasks.length === 0) {
-    <p class="empty-message">No tasks yet. Add one above!</p>
+    <p class="empty-message">
+      No tasks yet. Add one above!
+    </p>
   }
   @for (task of tasks; track task.id) {
-    <div class="task-item" [class.completed]="task.completed">
-      <input
-        type="checkbox"
-        [checked]="task.completed"
-        (change)="onToggle(task)"
-        class="task-checkbox"
-      />
-      <span class="task-title">{{ task.title }}</span>
-      <button (click)="onDelete(task.id)" class="delete-btn">Delete</button>
-    </div>
+    <app-task-item
+      [task]="task"
+      (toggleComplete)="onToggle($event)"
+      (deleteTask)="onDelete($event)"
+    ></app-task-item>
   }
 </div>

@@ -1,8 +1,19 @@
-import { inject, Injectable } from '@angular/core';
+import {
+  inject,
+  Injectable,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Task } from '../models/task.model';
-import { addDoc, collection, collectionData, Firestore } from '@angular/fire/firestore';
+import {
+  addDoc,
+  collection,
+  collectionData,
+  Firestore,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -10,23 +21,55 @@ import { addDoc, collection, collectionData, Firestore } from '@angular/fire/fir
 export class TaskService {
   private apiUrl = '/api/tasks';
   private firestore = inject(Firestore);
-  private tasksCollection = collection(this.firestore, 'tasks');
+  private tasksCollection = collection(
+    this.firestore,
+    'tasks',
+  );
 
   constructor(private http: HttpClient) {}
 
   getTasks(): Observable<Task[]> {
-    return collectionData(this.tasksCollection, { idField: 'id' }) as Observable<Task[]>;
+    return collectionData(this.tasksCollection, {
+      idField: 'id',
+    }) as Observable<Task[]>;
   }
 
-  async addTask(task: Omit<Task, 'id'>): Promise<void> {
+  async addTask(
+    task: Omit<Task, 'id'>,
+  ): Promise<void> {
     await addDoc(this.tasksCollection, task);
   }
 
-  updateTask(id: number, updates: Partial<Task>): Observable<Task> {
-    return this.http.put<Task>(`${this.apiUrl}/${id}`, updates);
+  updateTask(
+    id: number,
+    updates: Partial<Task>,
+  ): Observable<Task> {
+    return new Observable((observer) => {
+      updateDoc(
+        doc(this.firestore, 'tasks', String(id)),
+        updates as any,
+      )
+        .then(() => {
+          observer.next({
+            id,
+            ...updates,
+          } as Task);
+          observer.complete();
+        })
+        .catch((err) => observer.error(err));
+    });
   }
 
   deleteTask(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return new Observable((observer) => {
+      deleteDoc(
+        doc(this.firestore, 'tasks', String(id)),
+      )
+        .then(() => {
+          observer.next();
+          observer.complete();
+        })
+        .catch((err) => observer.error(err));
+    });
   }
 }

@@ -1,0 +1,16 @@
+<form (submit)="onSubmit()" class="task-form">
+  <div class="example-container">
+    <mat-form-field>
+      <mat-label>Enter a new task</mat-label>
+      <input
+        matInput
+        placeholder="pat@example.com"
+        [formControl]="control()"
+        required
+      />
+    </mat-form-field>
+  </div>
+  <button type="submit" class="add-btn">
+    Add Task
+  </button>
+</form>

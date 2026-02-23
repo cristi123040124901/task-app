@@ -1,9 +1,0 @@
-<form [formGroup]="taskForm" (submit)="onSubmit()" class="task-form">
-  <input
-    type="text"
-    [formControl]="taskForm.get('title') as FormControl"
-    placeholder="Enter a new task..."
-    class="task-input"
-  />
-  <button type="submit" class="add-btn">Add Task</button>
-</form>
