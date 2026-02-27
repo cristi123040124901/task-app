@@ -1,14 +1,25 @@
-<div class="task-list">
-  @if (tasks.length === 0) {
-    <p class="empty-message">
-      No tasks yet. Add one above!
-    </p>
-  }
-  @for (task of tasks; track task.id) {
-    <app-task-item
-      [task]="task"
-      (toggleComplete)="onToggle($event)"
-      (deleteTask)="onDelete($event)"
-    ></app-task-item>
-  }
+<div class="app-container">
+  <header class="app-header">
+    <h1>Task Organizer</h1>
+  </header>
+  <div class="task-list">
+    @if (tasks().length === 0) {
+      <p class="empty-message">
+        No tasks yet. Add one above!
+      </p>
+    }
+
+    <button (click)="onAddTask()">
+      Add Task
+    </button>
+    @for (task of tasks(); track task.id) {
+      <app-task-item
+        [task]="task"
+        (toggleComplete)="
+          onToggleComplete($event)
+        "
+        (deleteTask)="onDeleteTask($event)"
+      ></app-task-item>
+    }
+  </div>
 </div>

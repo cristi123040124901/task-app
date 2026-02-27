@@ -37,7 +37,11 @@ export class TaskService {
   async addTask(
     task: Omit<Task, 'id'>,
   ): Promise<void> {
-    await addDoc(this.tasksCollection, task);
+    try {
+      await addDoc(this.tasksCollection, task);
+    } catch (err) {
+      console.error('Error adding task:', err);
+    }
   }
 
   updateTask(

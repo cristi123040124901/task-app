@@ -1,12 +1,1 @@
-<div class="app-container">
-  <header class="app-header">
-    <h1>Task Organizer</h1>
-  </header>
-  <main class="app-main">
-    <app-task-list
-      [tasks]="tasks"
-      (toggleComplete)="onToggleComplete($event)"
-      (deleteTask)="onDeleteTask($event)"
-    ></app-task-list>
-  </main>
-</div>
+<router-outlet></router-outlet>
