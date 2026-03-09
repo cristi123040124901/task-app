@@ -1,0 +1,6 @@
+// 1. First import variables (colors, typography, spacing)
+@use 'themes/variables' as *;
+
+// 2. Then import base styles
+@use 'base/reset';
+@use 'base/globals';

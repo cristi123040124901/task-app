@@ -6,16 +6,17 @@ import {
   signal,
 } from '@angular/core';
 import { Task } from '../../models/task.model';
-import { TaskItemComponent } from '../task-item/task-item.component';
 import { TaskService } from '../../services/task.service';
 import { Subject, takeUntil } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
+import { TaskItemComponent } from '../task-item/task-item.component';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [TaskItemComponent],
+  imports: [TaskItemComponent, MatButtonModule],
   templateUrl: './task-list.component.html',
-  styleUrl: './task-list.component.css',
+  styleUrls: ['./task-list.component.scss'],
 })
 export class TaskListComponent
   implements OnInit, OnDestroy
@@ -25,6 +26,7 @@ export class TaskListComponent
   private readonly destroy$ = new Subject<void>();
 
   tasks = signal<Task[]>([]);
+  isLoading = signal(true);
 
   ngOnInit(): void {
     this.loadTasks();
@@ -40,12 +42,17 @@ export class TaskListComponent
       .getTasks()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (tasks) => this.tasks.set(tasks),
-        error: (err) =>
+        next: (tasks) => {
+          this.tasks.set(tasks);
+          this.isLoading.set(false);
+        },
+        error: (err) => {
           console.error(
             'Failed to load tasks',
             err,
-          ),
+          );
+          this.isLoading.set(false);
+        },
       });
   }
 

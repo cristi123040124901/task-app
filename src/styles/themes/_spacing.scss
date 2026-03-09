@@ -1,0 +1,22 @@
+// This file defines spacing variables (margins, paddings) to standardize spacing throughout the application.
+
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+
+@mixin spacing($property, $size) {
+  #{$property}: map-get(
+    (
+      xs: $spacing-xs,
+      sm: $spacing-sm,
+      md: $spacing-md,
+      lg: $spacing-lg,
+      xl: $spacing-xl,
+      xxl: $spacing-xxl,
+    ),
+    $size
+  );
+}

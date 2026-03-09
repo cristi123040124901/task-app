@@ -12,7 +12,7 @@ import { Task } from '../../models/task.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './task-item.component.html',
-  styleUrl: './task-item.component.css',
+  styleUrl: './task-item.component.scss',
 })
 export class TaskItemComponent {
   @Input() task!: Task;

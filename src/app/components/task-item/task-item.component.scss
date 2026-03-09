@@ -1,14 +1,16 @@
+@use '../../../styles/themes/colors' as colors;
+
 .task-item {
   display: flex;
   align-items: center;
   padding: 12px;
-  border-bottom: 1px solid #e0e0e0;
-  background-color: #fff;
+  border-bottom: 1px solid colors.$border-color;
+  background-color: colors.$background-color;
   transition: background-color 0.2s;
 }
 
 .task-item:hover {
-  background-color: #f5f5f5;
+  background-color: colors.$light-gray;
 }
 
 .task-item.completed {
@@ -29,11 +31,11 @@
 
 .task-item.completed .task-title {
   text-decoration: line-through;
-  color: #999;
+  color: colors.$dark-gray;
 }
 
 .delete-btn {
-  background-color: #f44336;
+  background-color: colors.$accent-color;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -44,5 +46,5 @@
 }
 
 .delete-btn:hover {
-  background-color: #da190b;
+  background-color: colors.$dark-gray;
 }
