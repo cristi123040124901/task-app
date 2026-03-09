@@ -1,0 +1,45 @@
+@use '../themes/variables' as *;
+
+body {
+  font-family: 'Arial, sans-serif';
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.task-list {
+  margin-top: 20px;
+}
+
+.loading-message {
+  font-style: italic;
+  color: #666;
+}
+
+.task-count {
+  margin: 10px 0;
+  font-weight: bold;
+}
