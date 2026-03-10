@@ -10,6 +10,7 @@ import { TaskService } from '../../services/task.service';
 import { Subject, takeUntil } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { TaskItemComponent } from '../task-item/task-item.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-task-list',
@@ -27,6 +28,12 @@ export class TaskListComponent
 
   tasks = signal<Task[]>([]);
   isLoading = signal(true);
+
+  readonly totalCount =
+    this.taskService.totalCount;
+  readonly doneCount = this.taskService.doneCount;
+  readonly pendingCount =
+    this.taskService.pendingCount;
 
   ngOnInit(): void {
     this.loadTasks();
@@ -58,38 +65,25 @@ export class TaskListComponent
 
   onAddTask(): void {
     const newTask: Omit<Task, 'id'> = {
-      title: 'New Task',
-      completed: false,
+      title: '',
       createdAt: new Date().toISOString(),
+      category: 'General',
+      priority: 'medium',
+      done: false,
     };
 
     this.taskService.addTask(newTask);
   }
 
-  onToggleComplete(task: Task): void {
+  onToggle(task: Task): void {
+    console.log(
+      'Toggling task in task list:',
+      task,
+    );
     this.taskService
-      .updateTask(task.id, {
-        completed: !task.completed,
-      })
+      .updateTask(task.id, { done: !task.done })
       .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () =>
-          this.tasks.update((prev) =>
-            prev.map((t) =>
-              t.id === task.id
-                ? {
-                    ...t,
-                    completed: !t.completed,
-                  }
-                : t,
-            ),
-          ),
-        error: (err) =>
-          console.error(
-            'Failed to update task',
-            err,
-          ),
-      });
+      .subscribe();
   }
 
   onDeleteTask(id: number): void {

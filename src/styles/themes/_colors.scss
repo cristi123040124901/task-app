@@ -1,31 +1,25 @@
-// Color definitions for the theme
-$primary-color: #3498db; // Blue
-$secondary-color: #2ecc71; // Green
-$accent-color: #e74c3c; // Red
-$background-color: #ecf0f1; // Light Gray
-$text-color: #2c3e50; // Dark Gray
-$border-color: #bdc3c7; // Gray
+$primary-color: var(--primary-color);
+$secondary-color: var(--secondary-color);
+$accent-color: var(--accent-color);
+$background-color: var(--background-color);
+$text-color: var(--text-color);
+$border-color: var(--border-color);
+$light-gray: var(--light-gray);
+$dark-gray: var(--dark-gray);
+$warning-color: var(--warning-color);
+$info-color: var(--info-color);
+$success-color: var(--success-color);
 
-// Additional color palette
-$light-gray: #bdc3c7;
-$dark-gray: #7f8c8d;
-$warning-color: #f39c12; // Orange
-$info-color: #8e44ad; // Purple
-$success-color: #27ae60; // Dark Green
-
-// Utility classes for color
+// Utility classes
 .text-primary {
   color: $primary-color;
 }
-
 .text-secondary {
   color: $secondary-color;
 }
-
 .bg-primary {
   background-color: $primary-color;
 }
-
 .bg-secondary {
   background-color: $secondary-color;
 }

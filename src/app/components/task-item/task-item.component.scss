@@ -1,50 +1,183 @@
 @use '../../../styles/themes/colors' as colors;
 
-.task-item {
+.task-widget {
+  background: var(--card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    background: var(--card-hover);
+    border-color: var(--border);
+  }
+
+  &.done {
+    border-color: transparent;
+
+    .task-check {
+      background: var(--green-bright);
+      border-color: var(--green-bright);
+
+      svg {
+        opacity: 1;
+        stroke: #0a0a0b;
+      }
+    }
+
+    .task-title {
+      input {
+        text-decoration: line-through;
+      }
+      color: var(--done-text);
+    }
+
+    .task-meta {
+      color: var(--muted2);
+    }
+  }
+}
+
+// Checkbox
+.task-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--muted2);
+  flex-shrink: 0;
+  margin-top: 1px;
   display: flex;
   align-items: center;
-  padding: 12px;
-  border-bottom: 1px solid colors.$border-color;
-  background-color: colors.$background-color;
-  transition: background-color 0.2s;
+  justify-content: center;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+
+  svg {
+    width: 11px;
+    height: 11px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    stroke: var(--text);
+  }
 }
 
-.task-item:hover {
-  background-color: colors.$light-gray;
-}
-
-.task-item.completed {
-  opacity: 0.6;
-}
-
-.task-checkbox {
-  margin-right: 12px;
-  cursor: pointer;
-  width: 18px;
-  height: 18px;
+// Content
+.task-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .task-title {
-  flex: 1;
   font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  transition: color 0.2s;
+  width: 100%;
+
+  ::ng-deep {
+    .mat-mdc-form-field-infix {
+      padding: 10px !important;
+      min-height: unset;
+    }
+
+    .mdc-text-field {
+      padding: 0 !important;
+    }
+
+    .mat-mdc-form-field-bottom-align::before {
+      display: none !important;
+    }
+
+    .mdc-line-ripple {
+      display: none !important;
+    }
+
+    .mat-mdc-form-field
+      .mdc-text-field--filled::before,
+    .mat-mdc-form-field
+      .mdc-text-field--filled::after {
+      display: none !important;
+    }
+  }
 }
 
-.task-item.completed .task-title {
-  text-decoration: line-through;
-  color: colors.$dark-gray;
-}
-
-.delete-btn {
-  background-color: colors.$accent-color;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
+.task-meta {
   font-size: 12px;
-  transition: background-color 0.2s;
+  color: var(--muted);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
 }
 
-.delete-btn:hover {
-  background-color: colors.$dark-gray;
+.meta-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--muted2);
+  flex-shrink: 0;
+}
+
+// Priority pill
+.task-priority {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 20px;
+
+  &.priority-high {
+    background: rgba(180, 50, 50, 0.15);
+    color: #e06060;
+    border: 1px solid rgba(180, 50, 50, 0.2);
+  }
+
+  &.priority-medium {
+    background: rgba(160, 120, 30, 0.15);
+    color: #c8a84a;
+    border: 1px solid rgba(160, 120, 30, 0.2);
+  }
+
+  &.priority-low {
+    background: var(--green);
+    color: var(--green-glow);
+    border: 1px solid var(--border);
+  }
+}
+
+// Delete button
+.task-delete {
+  background: none;
+  border: none;
+  color: var(--muted2);
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition:
+    color 0.15s,
+    background 0.15s;
+
+  &:hover {
+    color: #e06060;
+    background: rgba(180, 50, 50, 0.08);
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
 }

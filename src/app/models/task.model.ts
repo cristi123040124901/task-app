@@ -1,6 +1,13 @@
+export type TaskPriority =
+  | 'high'
+  | 'medium'
+  | 'low';
+
 export interface Task {
   id: number;
   title: string;
-  completed: boolean;
+  category: string;
+  priority: TaskPriority;
+  done: boolean;
   createdAt: string;
 }

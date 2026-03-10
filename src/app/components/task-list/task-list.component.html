@@ -1,31 +1,72 @@
-<div class="app-container">
-  <header class="app-header">
-    <h1>Task Organizer</h1>
+<div class="task-list-container">
+  <header class="list-header">
+    <h1 class="list-title">Task Organizer</h1>
+    <span class="count-badge">
+      {{ totalCount() }} tasks</span
+    >
   </header>
+
+  <div class="summary-card">
+    <div class="summary-stat">
+      <span class="stat-value">
+        {{ totalCount() }}
+      </span>
+      <span class="stat-label">Total</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-value green">
+        {{ doneCount() }}
+      </span>
+      <span class="stat-label">Done</span>
+    </div>
+    <div class="summary-stat">
+      <span class="stat-value">
+        {{ pendingCount() }}
+      </span>
+      <span class="stat-label">Pending</span>
+    </div>
+  </div>
+
+  <button
+    class="add-task-button"
+    (click)="onAddTask()"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+    >
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <line x1="5" y1="12" x2="19" y2="12" />
+    </svg>
+    Add Task
+  </button>
+
   <div class="task-list">
     @if (isLoading()) {
       <p class="loading-message">
         Loading tasks...
       </p>
-    } @else if (tasks().length > 0) {
-      <p class="task-count"></p>
     }
 
-    <button
-      matButton="outlined"
-      (click)="onAddTask()"
-    >
-      Add Task
-    </button>
-
-    @for (task of tasks(); track task.id) {
-      <app-task-item
-        [task]="task"
-        (toggleComplete)="
-          onToggleComplete($event)
-        "
-        (deleteTask)="onDeleteTask($event)"
-      ></app-task-item>
+    @if (!isLoading()) {
+      <div class="task-grid">
+        @for (task of tasks(); track task.id) {
+          <div class="task-cell">
+            <app-task-item
+              [task]="task"
+              (toggle)="onToggle($any($event))"
+              (deleteTask)="onDeleteTask($event)"
+            ></app-task-item>
+          </div>
+        } @empty {
+          <p class="empty-message">
+            No tasks yet. Add one above!
+          </p>
+        }
+      </div>
     }
   </div>
 </div>

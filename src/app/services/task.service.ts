@@ -1,7 +1,9 @@
 import {
+  computed,
   inject,
   Injectable,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Task } from '../models/task.model';
@@ -19,11 +21,29 @@ import {
   providedIn: 'root',
 })
 export class TaskService {
-  private apiUrl = '/api/tasks';
   private firestore = inject(Firestore);
   private tasksCollection = collection(
     this.firestore,
     'tasks',
+  );
+
+  private tasks = toSignal(
+    collectionData(this.tasksCollection, {
+      idField: 'id',
+    }) as Observable<Task[]>,
+    { initialValue: [] },
+  );
+
+  readonly totalCount = computed(
+    () => this.tasks().length,
+  );
+  readonly doneCount = computed(
+    () =>
+      this.tasks().filter((t) => t.done).length,
+  );
+  readonly pendingCount = computed(
+    () =>
+      this.tasks().filter((t) => !t.done).length,
   );
 
   constructor(private http: HttpClient) {}
@@ -51,7 +71,7 @@ export class TaskService {
     return new Observable((observer) => {
       updateDoc(
         doc(this.firestore, 'tasks', String(id)),
-        updates as any,
+        updates as Partial<Task>,
       )
         .then(() => {
           observer.next({
